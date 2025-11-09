@@ -1,5 +1,4 @@
-# Ignorar entorno virtual
 venv311/
-
-# Ignorar visualizaciones generadas
 assets/plots/*
+__pycache__/
+*.pyc
