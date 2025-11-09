@@ -301,7 +301,7 @@ def show_diagnostic_eda():
             st.markdown(f"#### 📝 Interpretación\n{interpretacion}")
             
 
-        # --- Top productos por categoría ---
+        # --- Top productos por categoría ---      
         with st.expander("Top Productos por Categoría", expanded=False):
 
             if "categoria_corregida" in df.columns:

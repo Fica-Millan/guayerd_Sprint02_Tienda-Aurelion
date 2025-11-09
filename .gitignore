@@ -1,2 +1,5 @@
-.venv311/
+# Ignorar entorno virtual
+venv311/
+
+# Ignorar visualizaciones generadas
 assets/plots/*

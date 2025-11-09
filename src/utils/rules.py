@@ -1,44 +1,78 @@
 # src/utils/rules.py
 
+import re
+
+# ------------------------------
+# 1. Clasificaciones exactas
+# ------------------------------
+EXACT = {
+    "medialunas de manteca": "Panificados",
+    "medialuna de manteca":  "Panificados"
+}
+
+# ------------------------------
+# 2. Clasificaciones por regex
+# ------------------------------
+
 RULES = {
     "Bebidas sin alcohol": [
-        "coca", "pepsi", "sprite", "fanta", "agua", "mineral",
-        "jugo", "polvo", "bebida", "nitro", "energética", "energetica", "energetic"
+        r"\bcoca\b", r"\bpepsi\b", r"\bsprite\b", r"\bfanta\b",
+        r"\bagua\b", r"\bmineral\b", r"\bjugo\b", r"\bpolvo\b",
+        r"\bbebida\b", r"\bnitro\b", r"\benerg(ética|etica|etic)\b"
     ],
+
     "Bebidas alcohólicas": [
-        "cerveza", "fernet", "vodka", "whisky", "ron", "gin", "sidra", "vino", "licor"
+        r"\bcerveza\b", r"\bfernet\b", r"\bvodka\b", r"\bwhisky\b",
+        r"\bron\b", r"\bgin\b", r"\bsidra\b", r"\bvin(o)?\b", r"\blicor\b"
     ],
+
     "Lácteos y refrigerados": [
-        "leche", "yogur", "yogurt", "queso", "manteca",
-        "untable", "cremoso", "rallado", "azul"
+        r"\bleche\b", r"\byogur?t\b", r"\bqueso\b", r"manteca\b",
+        r"\buntable\b", r"\bcremoso\b", r"\brallado\b", r"\bazul\b"
     ],
+
     "Panificados": [
-        "pan", "lactal", "medialuna", "factura"
+        r"\bpan\b", r"\blactal\b", r"\bmedialuna(s)?\b", r"\bfactura(s)?\b", r"\bmedialunas? de manteca\b"
     ],
+
     "Snacks y golosinas": [
-        "alfajor", "papas", "fritas", "mani", "maní", "bizcocho",
-        "turron", "turrón", "chocolate", "galletita", "galletitas",
-        "cereal", "barrita", "caramelo", "caramelos", "chicle", "chupet"
+        r"\balfajor(es)?\b", r"\bpapas?\b", r"\bfritas\b", r"\bman[ií]\b",
+        r"\bbizcocho(s)?\b", r"\bturr[oó]n\b", r"\bchocolate\b",
+        r"\bgalletita(s)?\b", r"\bcereal(es)?\b", r"\bbarrita(s)?\b",
+        r"\bcaramelo(s)?\b", r"\bchicle(s)?\b", r"\bchupet(e)?\b"
     ],
+
     "Infusiones": [
-        "yerba", "té", "te", "café", "cafe", "infusion", "stevia"
+        r"\byerba\b",
+        r"\bt[eé]\b",
+        r"\bcaf[eé]\b",
+        r"\binfusi[oó]n(es)?\b",
+        r"\bstevia\b"
     ],
+
     "Congelados": [
-        "congelad", "empanad", "hamburguesa", "pizza", "helado", "verdura"
+        r"\bcongelad[oa]s?\b", r"\bempanad[ao]s?\b", r"\bhamburguesa\b",
+        r"\bpizza\b", r"\bhelado(s)?\b", r"\bverdura(s)?\b"
     ],
+
     "Higiene personal": [
-        "shampoo", "jabon", "jabón", "dental", "cepillo",
-        "hilo", "capilar", "desodorante", "mascarilla",
-        "toalla", "húmeda", "humeda"
+        r"\bshampoo\b", r"\bjabon\b", r"\b(dental|cepillo)\b",
+        r"\bhilo\b", r"\bcapilar\b", r"\bdesodorante\b",
+        r"\bmascarilla\b", r"\btoalla\b", r"\bh[uú]meda(s)?\b"
     ],
+
     "Limpieza del hogar": [
-        "detergente", "lavandina", "limpiavidrios", "desengrasante",
-        "esponja", "suavizante", "trapo", "servilleta", "papel hig"
+        r"\bdetergente\b", r"\blavandina\b", r"\blimpiavidrios\b",
+        r"\bdesengrasante\b", r"\besponja\b", r"\bsuavizante\b",
+        r"\btrapo\b", r"\bservilleta(s)?\b", r"\bpapel hig\b"
     ],
+
     "Alimentos secos": [
-        "aceite", "vinagre", "arroz", "harina", "azucar", "azúcar",
-        "sal", "salsa", "tomate", "garbanzo", "lenteja", "poroto",
-        "fideos", "spaghetti", "aceituna", "miel", "granola",
-        "frutos", "avena", "sopa", "caldo", "mermelada"
+        r"\baceite\b", r"\bvinagre\b", r"\barroz\b", r"\bharina\b",
+        r"\baz[uú]car\b", r"\bsal\b", r"\bsalsa\b", r"\btomate\b",
+        r"\bgarbanzo(s)?\b", r"\blenteja(s)?\b", r"\bporoto(s)?\b",
+        r"\bfideos\b", r"\bspaghetti\b", r"\baceituna(s)?\b",
+        r"\bmiel\b", r"\bgranola\b", r"\bfrutos?\b", r"\bavena\b",
+        r"\bsopa\b", r"\bcaldo\b", r"\bmermelada\b"
     ]
 }
