@@ -7,7 +7,7 @@ def cargar_interpretacion(path, seccion):
         contenido = f.read()
 
     # Buscar sección tipo ## nombre_seccion
-    patron = rf"## {seccion}\n(.*?)(?=\n## |\Z)"
+    patron = rf"#### {seccion}\n(.*?)(?=\n#### |\Z)"
     match = re.search(patron, contenido, re.DOTALL)
 
     if match:

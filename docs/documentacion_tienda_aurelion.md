@@ -14,12 +14,12 @@
     - [Pasos](#pasos)
     - [Pseudocódigo](#pseudocódigo)
     - [Diagrama del flujo](#diagrama-del-flujo)
-- [Interpretaciones EDA – Visualizaciones](#interpretaciones-eda--visualizaciones)
-  - [distribucion\_numericas\_tabla](#distribucion_numericas_tabla)
-  - [correlacion](#correlacion)
-  - [ventas\_total\_por\_mes](#ventas_total_por_mes)
-  - [relacion\_cantidad](#relacion_cantidad)
-  - [interpretacion\_outliers](#interpretacion_outliers)
+    - [Interpretaciones EDA – Visualizaciones](#interpretaciones-eda--visualizaciones)
+      - [🔸 Gráfica: distribucion\_numericas](#-gráfica-distribucion_numericas)
+      - [🔸 Gráfica: correlacion](#-gráfica-correlacion)
+      - [🔸 Gráfica: ventas\_total\_por\_mes](#-gráfica-ventas_total_por_mes)
+      - [🔸 Gráfica: relacion\_cantidad](#-gráfica-relacion_cantidad)
+      - [🔸 Gráfica: outliers](#-gráfica-outliers)
 
 ---
 
@@ -121,15 +121,38 @@ Cada dataset es estructurado; se organiza en filas que representan registros ind
     - Expanders utilizados en la sección Ver documentación para mostrar de forma organizada el contenido técnico (contexto, datasets, metodología, pseudocódigo y diagrama de flujo).
     - Tablas de datos y resúmenes estadísticos
 
-6. 🟡**Funcionalidades principales**
-    - Visualizar información general de cada dataset: vista previa, tipos de columnas, cantidad de registros
-    - Las estadísticas descriptivas se generan con `pandas.describe(include="all")`, permitiendo visualizar medidas resumen para variables numéricas y conteos para variables categóricas.
-    - Explorar la documentación del proyecto de manera organizada
+6. **Funcionalidades principales**
+    - **Información General**: Vista previa de cada dataset, tipos de datos, metadatos y estadísticas básicas.
+    - **Estadísticas Descriptivas**: Análisis detallado mediante `pandas.describe(include="all")` con visualizaciones personalizadas:
+      - Distribución de variables numéricas y categóricas
+      - Matrices de correlación
+      - Gráficos específicos por dataset (series temporales, distribuciones, etc.)
+    - **EDA Automatizado**: Análisis exploratorio completo utilizando `ydata-profiling`:
+      - Perfilado automático de variables
+      - Detección de correlaciones y patrones
+      - Análisis de valores faltantes y cardinalidad
+    - **EDA Diagnóstico**: Análisis en profundidad del dataset unificado:
+      - Limpieza y preparación de datos
+      - Detección y análisis de outliers
+      - Visualizaciones avanzadas de series temporales
+      - Identificación de productos top y patrones de venta
+    - **Documentación Interactiva**: Acceso organizado a la documentación técnica del proyecto
+    - **Exportación de Visualizaciones**: Guardado automático de gráficos en la carpeta `assets/plots`
 
 7. **Estructura del programa**
-    - Carga de datasets: `función load_dataset()` con caching de Streamlit. 
-    - Menú lateral: selección de opciones: Información general, Estadísticas, Documentación
-    - Secciones de documentación: Contexto y objetivo, Metodología, Pseudocódigo, Diagrama del flujo
+    - **Carga y Unificación**: 
+      - Función `load_dataset()` con caché de Streamlit
+      - Generación automática del dataset unificado mediante `load_and_merge_datasets()`
+    - **Menú Principal**: Radio buttons en la barra lateral con las opciones:
+      - Información General
+      - Estadísticas
+      - EDA Automatizado
+      - EDA Diagnóstico
+      - Ver Documentación
+    - **Módulos Organizados**:
+      - Cargadores de datos (`data_loader.py`)
+      - Páginas separadas por funcionalidad (`pages/`)
+      - Utilidades de visualización (`utils/`)
 
 ### Pasos
 
@@ -142,33 +165,61 @@ Cada dataset es estructurado; se organiza en filas que representan registros ind
    - Cada archivo se carga en un **DataFrame** independiente.  
    - La función de carga se **almacena en caché** (`st.cache_data`) para optimizar el rendimiento y evitar recargas innecesarias.
 
-3. 🟡**Menú lateral**  
-   - Se despliega un `selectbox` con las tres secciones principales de la aplicación:  
-     - **Información general**  
-     - **Estadísticas**  
-     - **Ver documentación**
+3. **Menú principal**  
+   - Se implementa mediante radio buttons en la barra lateral, ofreciendo cinco secciones principales:
+     - **Información General**: Exploración básica de datasets
+     - **Estadísticas**: Análisis descriptivo y visualizaciones
+     - **EDA Automatizado**: Perfilado completo de datos
+     - **EDA Diagnóstico**: Análisis detallado y visualizaciones
+     - **Ver Documentación**: Acceso a documentación técnica
 
-4. **Opción 1: Información general**  
-   - El usuario selecciona el dataset a visualizar.  
-   - Se muestra:  
-     - Vista previa de los primeros registros (`head()`).  
-     - Tipos de columnas y estructura del dataset.  
-     - Cantidad total de filas y columnas.  
-   - Cada bloque de información se organiza dentro de **expanders** para mantener una visualización ordenada.
+4. **Opción 1: Información General**  
+   - Interfaz de selección de dataset mediante selectbox
+   - Para cada archivo seleccionado muestra:
+     - Metadatos: fecha de modificación y tamaño
+     - Vista previa de registros mediante `head()`
+     - Estructura detallada: tipos de datos y columnas
+     - Resumen: dimensiones y cantidad de registros
+   - Información organizada en expanders para mejor navegación
 
 5. **Opción 2: Estadísticas**  
-   - El usuario selecciona el dataset a analizar.  
-   - Se generan estadísticas descriptivas mediante `describe(include="all")`.  
-   - Se incluyen métricas de variables **numéricas y categóricas**, acompañadas de resúmenes visuales.
+   - Selección interactiva del dataset a analizar
+   - Análisis estadístico completo que incluye:
+     - Estadísticas descriptivas via `describe(include="all")`
+     - Análisis de valores nulos y únicos
+     - Visualizaciones específicas según tipo de datos:
+       • Variables numéricas: histogramas y boxplots
+       • Variables categóricas: gráficos de barras y pie
+       • Series temporales: evolución y tendencias
 
-6. **Opción 3: Ver documentación**  
-   - Se lee el archivo `documentacion_tienda_aurelion.md`.  
-   - El contenido se organiza en **expanders** para facilitar la lectura:  
-     - Contexto y objetivo  
-     - Metodología  
-     - Pseudocódigo  
-     - Diagrama de flujo  
-   - El diagrama se adapta automáticamente al ancho del contenedor (`use_container_width=True`).
+6. **Opción 3: EDA Automatizado**
+   - Generación automática del dataset unificado si no existe
+   - Creación de un reporte interactivo completo usando `ydata-profiling`
+   - Visualización integrada mediante `streamlit-pandas-profiling`
+   - Análisis automático de:
+     • Distribuciones y estadísticas
+     • Correlaciones entre variables
+     • Valores faltantes y duplicados
+     • Alertas y recomendaciones
+
+7. **Opción 4: EDA Diagnóstico**
+   - Análisis profundo del dataset unificado
+   - Proceso de limpieza y preparación de datos
+   - Generación de visualizaciones avanzadas:
+     • Matrices de correlación
+     • Series temporales de ventas
+     • Análisis de outliers
+     • Rankings y patrones de venta
+   - Guardado automático de gráficos en `assets/plots`
+
+8. **Opción 5: Ver Documentación**  
+   - Lectura y procesamiento de `documentacion_tienda_aurelion.md`
+   - Contenido organizado en expanders por secciones:
+     • Contexto y objetivo
+     • Datasets y metodología
+     • Pseudocódigo
+     • Diagrama de flujo
+   - Visualización adaptativa del flujograma
 
 7. **Interactividad**  
    - Los **expanders** permiten ocultar o desplegar secciones para una interfaz más limpia.  
@@ -190,68 +241,108 @@ INICIO
     - Columna 1: mostrar logo de la tienda desde ./assets/logo_aurelion.png
     - Columna 2: mostrar título del proyecto y descripción general
 
-3. Definir función para cargar archivos Excel (con caché):
-    FUNCION load_dataset(ruta, hoja=0):
-        SI el archivo no existe:
-            Mostrar advertencia
-            Retornar None
-        SINO:
-            INTENTAR leer el archivo Excel usando pandas
-            SI tiene éxito:
-                Retornar el DataFrame
-            SI ocurre error:
-                Mostrar mensaje de error y retornar None
+3. Definir funciones de carga y unificación:
+    FUNCION get_dataset_paths():
+        Retornar diccionario con rutas de:
+            - clientes.xlsx
+            - productos.xlsx
+            - ventas.xlsx
+            - detalle_ventas.xlsx
+            - df_tienda_aurelion.csv
 
-4. Validar existencia de todos los archivos en ./data:
-    - clientes.xlsx
-    - productos.xlsx
-    - ventas.xlsx
-    - detalle_ventas.xlsx
-    SI falta alguno:
-        Mostrar advertencia en la barra lateral
-    SINO:
-        Mostrar mensaje de disponibilidad exitosa
+    FUNCION load_dataset(nombre):
+        - Obtener rutas mediante get_dataset_paths()
+        - SI nombre es "df_tienda_aurelion" y no existe:
+            Llamar a load_and_merge_datasets()
+        - SI es archivo Excel:
+            Leer con pandas.read_excel()
+        - SI es archivo CSV:
+            Leer con pandas.read_csv()
+        - Manejar errores y mostrar advertencias
+
+    FUNCION load_and_merge_datasets():
+        - Cargar los 4 datasets Excel
+        - Realizar merge progresivo:
+            1. clientes + ventas
+            2. ventas + clientes
+            3. detalle_ventas + productos
+            4. merge final
+        - Calcular total_venta y convertir fechas
+        - Guardar como CSV
+        - Retornar DataFrame unificado
+
+4. Definir utilidades de visualización:
+    FUNCION save_fig_to_disk(figura, nombre, carpeta="assets/plots"):
+        - Crear carpeta si no existe
+        - Limpiar nombre del archivo
+        - Guardar figura con calidad apropiada
+
+    FUNCION mostrar_fig(figura, ancho=700):
+        - Mostrar en Streamlit
+        - Opcionalmente guardar en disco
+        - Cerrar figura
 
 5. Crear menú lateral con opciones:
     - "Información general"
     - "Estadísticas"
+    - "EDA Automatizado"
+    - "EDA Diagnóstico" 
     - "Ver documentación"
 
-6. SI la opción seleccionada es "Información general":
-    - Mostrar selectbox con nombres de datasets
-    - Cargar el dataset seleccionado
-    - Mostrar:
-        - Fecha y tamaño del archivo
-        - Vista previa (primeras filas)
-        - Tabla con nombres y tipos de columnas
-        - Cantidad de registros
-    - SI no se pudo cargar:
-        Mostrar advertencia
-
-7. SI la opción seleccionada es "Estadísticas":
+6. SI la opción es "Información general":
     - Mostrar selectbox con datasets disponibles
-    - Cargar el dataset seleccionado
-    - Mostrar estadísticas descriptivas (`describe(include="all")`)
-    - SI no se pudo cargar:
-        Mostrar advertencia
+    - Para el dataset seleccionado mostrar:
+        - Fecha y tamaño del archivo
+        - Vista previa (head)
+        - Estructura (tipos de columnas)
+        - Cantidad de registros
 
-8. SI la opción seleccionada es "Ver documentación":
-    - Verificar existencia del archivo ./documentacion_tienda_aurelion.md
+7. SI la opción es "Estadísticas":
+    - Permitir seleccionar dataset
+    - Mostrar:
+        - Información general del dataset
+        - Valores nulos por columna
+        - Valores únicos por columna
+        - Estadísticas descriptivas
+        - Matriz de correlación (si hay numéricas)
+        - Visualizaciones específicas según el dataset:
+            • Clientes: distribución por ciudad y mes
+            • Productos: distribución de precios y categorías
+            • Ventas: evolución mensual y medios de pago
+            • Detalle: distribución de cantidades e importes
+
+8. SI la opción es "EDA Automatizado":
+    - Cargar/generar df_tienda_aurelion
+    - Crear ProfileReport con ydata-profiling
+    - Mostrar en Streamlit con st_profile_report
+
+9. SI la opción es "EDA Diagnóstico":
+    - Cargar df_tienda_aurelion
+    - Verificar unificación exitosa
+    - Realizar limpieza básica:
+        • Convertir fechas a datetime
+        • Renombrar columnas si necesario
+        • Eliminar columnas duplicadas
+    - Generar y guardar visualizaciones:
+        • Distribución de variables numéricas
+        • Matriz de correlación
+        • Series temporales de ventas
+        • Top productos
+        • Detección de outliers
+    - Mostrar interpretación de resultados
+
+10. SI la opción es "Ver documentación":
+    - Verificar existencia de documentacion_tienda_aurelion.md
     - SI existe:
-        - Leer el contenido completo
-        - Dividir el texto en secciones:
-            a) Contexto y objetivo
-            b) Datasets de referencia
-            c) Metodología e implementación
-            d) Pseudocódigo
-            e) Diagrama del flujo
-        - Mostrar cada sección dentro de un expander
-        - Mostrar la imagen del diagrama centrada y ajustada al ancho
+        - Leer contenido y dividir en secciones
+        - Mostrar cada sección en expander
+        - Mostrar diagrama de flujo centrado
     - SINO:
-        - Mostrar advertencia de archivo no encontrado
+        - Mostrar advertencia
 
-9. Mostrar pie de página (footer):
-    - Información del Sprint, autor y enlace a LinkedIn
+11. Mostrar pie de página (footer):
+    - Información del Sprint
+    - Autor y enlace a LinkedIn
 
 FIN
 
@@ -263,28 +354,16 @@ A continuación, se presenta el flujograma del proceso general del proyecto **Ti
 Este diagrama ilustra las principales etapas del flujo del programa, desde la carga de los datasets hasta la visualización interactiva de la información en la aplicación web.
 
 <p align="center">
-  <img src="../assets/flujograma_aurelion.jpg" alt="Flujograma Tienda Aurelion" width="600">
+  <img src="../assets/flujograma_aurelion.png" alt="Flujograma Tienda Aurelion" width="600">
 </p>
 
 
-
-# Interpretaciones EDA – Visualizaciones
+### Interpretaciones EDA – Visualizaciones
 
 Esta sección describe las principales visualizaciones generadas automáticamente por la aplicación, junto con su interpretación.
 Cada gráfico se encuentra guardado en la carpeta plots/ y se muestra en la sección de estadísticas del dashboard.
 
-🔶 Distribución de variables numéricas
-
-Estos gráficos permiten analizar la forma y dispersión de las variables numéricas del conjunto de datos unificado.
-
-Las distribuciones de variables numéricas permiten identificar posibles asimetrías, valores extremos o zonas de concentración.
-Estos patrones ayudan a tomar decisiones en torno a:
-
-- Segmentación de clientes según comportamiento de compra.
-- Estrategias de precios y descuentos.
-- Control de inventario, detectando productos de alta o baja rotación.
-
-## distribucion_numericas_tabla
+#### 🔸 Gráfica: distribucion_numericas
 
 A continuación, se detallan las explicaciones correspondientes a cada una de las variables analizadas.
 
@@ -295,7 +374,8 @@ A continuación, se detallan las explicaciones correspondientes a cada una de la
 | **total_venta**     | Eje X: total_venta (0 a 25000) <br> Eje Y: frecuencia (hasta 60)    | • Distribución **sesgada a la derecha**. <br> • Alta concentración entre **0 y 10,000**, con pico entre **3,000–5,000**. <br> • Pocos casos >20,000.         | La mayoría de las ventas son bajas o moderadas; las muy altas son raras, indicando posibles *outliers* en el extremo derecho. |
 
 
-## correlacion
+#### 🔸 Gráfica: correlacion
+
 **Variables analizadas:**
 * cantidad
 * precio_unitario
@@ -311,7 +391,7 @@ A continuación, se detallan las explicaciones correspondientes a cada una de la
 3. precio_unitario vs total_venta:
 - Correlación: 0.68 (moderada-alta y positiva). El precio unitario tiene una influencia importante en el total de venta. Productos más caros tienden a generar ventas totales más altas, incluso si la cantidad no varía mucho.
 
-## ventas_total_por_mes
+#### 🔸 Gráfica: ventas_total_por_mes
 
 El gráfico muestra la evolución de las ventas mensuales entre enero 2024 y junio 2024.
 Se observa una tendencia fluctuante, con una caída marcada en abril y una recuperación fuerte en mayo.
@@ -340,7 +420,7 @@ Tendencias específicas:
 > Las ventas son volátiles, con un mínimo crítico en abril y un máximo en mayo.
 El promedio indica que la tienda tiene un buen desempeño general, pero necesita analizar qué causó la caída en abril y el repunte en mayo (promociones, estacionalidad, campañas).
 
-## relacion_cantidad
+#### 🔸 Gráfica: relacion_cantidad
 
 Diagrama de dispersión con:
 - Eje X: cantidad (de 1 a 5 unidades).
@@ -363,7 +443,7 @@ El precio unitario influye mucho en el total, incluso con la misma cantidad.
 El precio unitario es un factor adicional que explica la dispersión.
 Para aumentar ventas totales, incrementar la cantidad ayuda, pero también es clave considerar el mix de productos y precios.
 
-## interpretacion_outliers
+#### 🔸 Gráfica: outliers
 
 A continuación se resumen los resultados de los gráficos de outliers agrupados por tipo de variable.
 

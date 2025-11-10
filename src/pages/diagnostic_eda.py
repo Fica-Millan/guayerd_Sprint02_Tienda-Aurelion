@@ -14,7 +14,6 @@ from src.utils.palette import PALETA
 
 INTERPRETACIONES_PATH = "docs/documentacion_tienda_aurelion.md"
 
-
 def show_diagnostic_eda():
 
     st.subheader("📊 EDA Diagnóstico - Tienda Aurelion")
@@ -53,7 +52,6 @@ def show_diagnostic_eda():
                 st.dataframe(fallas)
             else:
                 st.success("✅ No hay productos en fallback: todas las reglas funcionan correctamente.")
-
 
     # ==============================================================
     # 3️⃣ Verificación del dataset unificado
@@ -127,7 +125,7 @@ def show_diagnostic_eda():
                 line.set_color(PALETA["secundario"])
                 line.set_linewidth(2)
 
-            ax.set_title(f"Distribución de {col}")
+            ax.set_title(f"Distribución de {col}", fontsize=14, fontweight="bold", color=PALETA["secundario"])
             save_fig_to_disk(fig)
 
             cols[i % 3].pyplot(fig)
@@ -135,7 +133,7 @@ def show_diagnostic_eda():
         # ✅ Interpretación conjunta
         tabla_interpretacion = cargar_interpretacion(
             INTERPRETACIONES_PATH,
-            "distribucion_numericas_tabla"
+            "🔸 Gráfica: distribucion_numericas"
         )
 
         st.markdown("### 📝 Interpretación Conjunta de Variables Numéricas")
@@ -165,12 +163,13 @@ def show_diagnostic_eda():
                 ax=ax
             )
 
-            ax.set_title("Matriz de Correlación")
+            ax.set_title("Matriz de Correlación", fontsize=14, fontweight="bold", color=PALETA["secundario"])
+            
             save_fig_to_disk(fig)
             mostrar_fig(fig, save=True, ancho=500)
             
             # Cargar e insertar interpretación desde documentación
-            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "correlacion")
+            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "🔸 Gráfica: correlacion")
             st.markdown(f"#### 📝 Interpretación\n{interpretacion}")
 
     # ==============================================================
@@ -250,7 +249,7 @@ def show_diagnostic_eda():
             ax.axhline(promedio, color=PALETA["acento2"], linestyle='--', linewidth=1, label=f'Promedio: {promedio:,.0f}')
 
             ax.set_ylim(200000, 650000)
-            ax.set_title("Ventas Totales por Mes - Tienda Aurelion", fontsize=14, fontweight="bold", color=PALETA["secundario"])
+            ax.set_title("Ventas Totales por Mes", fontsize=14, fontweight="bold", color=PALETA["secundario"])
             ax.set_xlabel("Mes")
             ax.set_ylabel("Total Ventas")
             ax.grid(True, linestyle='--', alpha=0.5)
@@ -262,7 +261,7 @@ def show_diagnostic_eda():
             mostrar_fig(fig, save=True, ancho=700) 
             
             # Cargar e insertar interpretación desde documentación
-            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "ventas_total_por_mes")
+            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "🔸 Gráfica: ventas_total_por_mes")
             st.markdown(f"#### 📝 Interpretación\n{interpretacion}")
                 
 
@@ -282,7 +281,7 @@ def show_diagnostic_eda():
 
             corr = df['cantidad'].corr(df['total_venta'])
 
-            ax.set_title("Relación Cantidad — Total Venta")
+            ax.set_title("Relación Cantidad - Total Venta", fontsize=14, fontweight="bold", color=PALETA["secundario"])
             ax.grid(True, linestyle='--', alpha=0.5)
 
             ax.text(
@@ -297,7 +296,7 @@ def show_diagnostic_eda():
             mostrar_fig(fig, save=True, ancho=700)
             
             # Cargar e insertar interpretación desde documentación
-            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "relacion_cantidad")
+            interpretacion = cargar_interpretacion(INTERPRETACIONES_PATH, "🔸 Gráfica: relacion_cantidad")
             st.markdown(f"#### 📝 Interpretación\n{interpretacion}")
             
 
@@ -328,7 +327,7 @@ def show_diagnostic_eda():
                 fig, ax = plt.subplots(figsize=(5,3))
                 ax.barh(top_prod.index, top_prod.values, color=PALETA["principal"])
                 ax.invert_yaxis()
-                ax.set_title(f"Top 5 Productos — {categoria_seleccionada}")
+                ax.set_title(f"Top 5 Productos — {categoria_seleccionada}", fontsize=14, fontweight="bold", color=PALETA["secundario"])
 
                 mostrar_fig(fig, save=True, ancho=700)
 
@@ -356,14 +355,14 @@ def show_diagnostic_eda():
                 jitter=True,
                 ax=ax
             )
-            ax.set_title(f"Boxplot — {col}")
+            ax.set_title(f"Boxplot — {col}", fontsize=14, fontweight="bold", color=PALETA["secundario"])
             save_fig_to_disk(fig, name=f"outliers_{col}")
             cols[i % 3].pyplot(fig)
             
         # ----- INTERPRETACIÓN COMBINADA -----
         interpretacion = cargar_interpretacion(
             INTERPRETACIONES_PATH,
-            "interpretacion_outliers"
+            "🔸 Gráfica: outliers"
         )
 
         st.markdown("### 📝 Interpretación de Outliers")
